@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 " File Maneger
 " -------
 Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
 
 " -------
 " Status Bar
@@ -19,12 +20,14 @@ Plug 'vim-airline/vim-airline-themes'
 " LSP
 " -------
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'liuchengxu/vista.vim'
 
 " -------
 " Colorscheme
 " -------
 Plug 'arcticicestudio/nord-vim'
 Plug 'cocopon/iceberg.vim'
+Plug 'sickill/vim-monokai'
 
 " -------
 " Git
@@ -39,6 +42,10 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tomtom/tcomment_vim'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'andymass/vim-matchup'
+Plug 'cohama/lexima.vim'
+Plug 'tpope/vim-surround'
+Plug 'Yggdroot/indentLine'
+Plug 'kassio/neoterm'
 
 " -------
 " Language
@@ -47,6 +54,8 @@ Plug 'andymass/vim-matchup'
 " Markdown
 Plug 'plasticboy/vim-markdown'
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
+" Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -81,6 +90,8 @@ set backspace=indent,eol,start
 set mouse=a
 " 行Noを相対的に表示する
 set relativenumber
+" leader
+let mapleader = "\<Space>"
 
 " -------
 " Visual
@@ -121,7 +132,7 @@ if (has("termguicolors"))
  set termguicolors
 endif
 set background=dark
-colorscheme iceberg
+colorscheme nord
 
 "" }}}
 ""==============================
@@ -182,8 +193,8 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Remap for format selected region
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+xmap <leader>fo  <Plug>(coc-format-selected)
+nmap <leader>fo  <Plug>(coc-format-selected)
 
 augroup mygroup
   autocmd!
@@ -273,7 +284,7 @@ nmap [h <Plug>(GitGutterPrevHunk)
 " -------
 " Vim Air-Line
 " -------
-let g:airline_theme = 'iceberg'
+let g:airline_theme = 'nord'
 set laststatus=2
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -348,6 +359,11 @@ let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlited
+
+" -------
+" Vista
+" -------
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
 "" }}}
 ""==============================
