@@ -25,6 +25,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 
+" -------
 " Colorscheme
 " -------
 Plug 'arcticicestudio/nord-vim'
