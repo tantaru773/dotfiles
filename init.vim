@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 " File Maneger
 " -------
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -261,6 +262,8 @@ nnoremap <silent> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list
 nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+" Toggle Terminal
+map te <Plug>(coc-terminal-toggle)
 
 " -------
 " EasyMotion
@@ -369,6 +372,19 @@ let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlited
 
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✨",
+    \ "Staged"    : "👌",
+    \ "Untracked" : "⭐",
+    \ "Renamed"   : "👉",
+    \ "Unmerged"  : "💤",
+    \ "Deleted"   : "👿",
+    \ "Dirty"     : "➕",
+    \ "Clean"     : "🍺",
+    \ 'Ignored'   : '🙅',
+    \ "Unknown"   : "❓"
+    \ }
+
 " -------
 " Vista
 " -------
@@ -417,7 +433,6 @@ function! FloatingFZF()
         \ 'width': width,
         \ 'height': height
         \ }
-
   " open the new window, floating, and enter to it
   call nvim_open_win(buf, v:true, opts)
 endfunction
