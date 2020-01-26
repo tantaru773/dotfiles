@@ -9,6 +9,8 @@ call plug#begin('~/.vim/plugged')
 " -------
 Plug 'scrooloose/nerdtree'
 Plug 'ryanoasis/vim-devicons'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 " -------
 " Status Bar
@@ -22,12 +24,10 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'liuchengxu/vista.vim'
 
-" -------
 " Colorscheme
 " -------
 Plug 'arcticicestudio/nord-vim'
 Plug 'cocopon/iceberg.vim'
-Plug 'sickill/vim-monokai'
 
 " -------
 " Git
@@ -134,11 +134,20 @@ endif
 set background=dark
 colorscheme nord
 
+" -------
+" Terminal
+" -------
+if has('nvim')
+  command! -nargs=* Term split | terminal <args>
+  command! -nargs=* Termv vsplit | terminal <args>
+endif
+
 "" }}}
 ""==============================
 ""==============================
 ""  PlugIn Settings {{{
 ""==============================
+
 " -------
 " Coc
 " -------
@@ -365,9 +374,55 @@ set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlited
 " -------
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 
+" -------
+" FZF
+" -------
+" ripgrepで検索中、?を押すとプレビュー:
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Filesコマンドにもプレビューを出す
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+" Reverse the layout to make the FZF list top-down
+let $FZF_DEFAULT_OPTS='--layout=reverse'
+
+" Using the custom window creation function
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+" Function to create the custom floating window
+function! FloatingFZF()
+  " creates a scratch, unlisted, new, empty, unnamed buffer
+  " to be used in the floating window
+  let buf = nvim_create_buf(v:false, v:true)
+
+  " 90% of the height
+  let height = float2nr(&lines * 0.9)
+  " 60% of the height
+  let width = float2nr(&columns * 0.6)
+  " horizontal position (centralized)
+  let horizontal = float2nr((&columns - width) / 2)
+  " vertical position (one line down of the top)
+  let vertical = 1
+
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height
+        \ }
+
+  " open the new window, floating, and enter to it
+  call nvim_open_win(buf, v:true, opts)
+endfunction
 "" }}}
 ""==============================
-
 ""==============================
 ""  Language Settings {{{
 ""==============================
@@ -377,6 +432,11 @@ let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 " -------
 let g:python3_host_prog = $PYENV_ROOT.'/versions/neovim3/bin/python'
 let g:python_host_prog = $PYENV_ROOT.'/versions/neovim2/bin/python'
+
+" -------
+" markdown
+" -------
+let g:instant_markdown_port = 8888
 
 "" }}}
 ""==============================
